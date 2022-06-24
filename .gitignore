@@ -1,0 +1,7 @@
+.platform/local
+.idea/
+/node_modules/
+/noco.db
+/package-lock.json
+/nc/
+.env

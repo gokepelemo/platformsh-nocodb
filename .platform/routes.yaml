@@ -1,0 +1,16 @@
+'https://{default}':
+  type: upstream
+  upstream: app:http
+  cache:
+    enabled: true
+
+# Disable caching on websockets routes
+'https://{default}/socket.io':
+  type: upstream
+  upstream: app:http
+  cache:
+    enabled: false
+
+'https://www.{default}':
+  type: redirect
+  to: 'https://{default}'

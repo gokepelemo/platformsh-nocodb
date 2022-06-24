@@ -1,0 +1,36 @@
+name: app
+type: nodejs:16
+
+disk: 1024
+
+dependencies:
+  nodejs:
+    'npm': '*'
+
+relationships:
+  database: 'db:postgresql'
+  metadatastore: 'metadatastore:redis'
+
+hooks:
+  build: |
+    set -e
+    npm install -g
+
+web:
+  locations:
+    '/':
+      root: public
+      allow: true
+      scripts: false
+      rules:
+        '\.(jpe?g|png|gif|svgz?|css|js|map|ico|bmp|eot|woff2?|otf|ttf)$':
+          expires: 4w
+
+  commands:
+    start: node index.js --max-old-space-size=512 
+
+mounts:
+  # A writable mount for the data directory 
+  '/data':
+    source: local
+    source_path: 'data'
