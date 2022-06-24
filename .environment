@@ -1,9 +1,9 @@
 # Database configuration
-export DB_PATH=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].path"`
-export DB_HOST=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].host"`
-export DB_PORT=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].port"`
-export DB_USER=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].username"`
-export DB_PASS=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].password"`
+export DB_PATH=$(echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].path")
+export DB_HOST=$(echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].host")
+export DB_PORT=$(echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].port")
+export DB_USER=$(echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].username")
+export DB_PASS=$(echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].password")
 export NC_DB="pg://$DB_HOST:$DB_PORT?u=$DB_USER&p=$DB_PASS&d=$DB_PATH"
 
 # If services.yaml and .platform.app.yaml have been updated to use MySQL or MariaDB, use the database URL version below. 
