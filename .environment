@@ -1,18 +1,21 @@
-# Database credentials
+# Database configuration
 export DB_PATH=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].path"`
 export DB_HOST=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].host"`
 export DB_PORT=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].port"`
 export DB_USER=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].username"`
 export DB_PASS=`echo $PLATFORM_RELATIONSHIPS|base64 -d|jq -r ".database[0].password"`
+export NC_DB="pg://$DB_HOST:$DB_PORT?u=$DB_USER&p=$DB_PASS&d=$DB_PATH"
 
-# Redis credentials
+# If services.yaml and .platform.app.yaml have been updated to use MySQL or MariaDB, use the database URL version below. 
+# export NC_DB="mysql2://$DB_HOST:$DB_PORT?u=$DB_USER&p=$DB_PASS&d=$DB_PATH"
+
+# Redis configuration
 export REDIS_HOST=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".metadatastore[0].host")
 export REDIS_PORT=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".metadatastore[0].port")
 export REDIS_PASS=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".metadatastore[0].password")
 export REDIS_DB=$(echo $PLATFORM_RELATIONSHIPS | base64 --decode | jq -r ".metadatastore[0].path")
 
 export PORT=8888
-export NC_DB="pg://$DB_HOST:$DB_PORT?u=$DB_USER&p=$DB_PASS&d=$DB_PATH"
 export NC_REDIS_URL=redis://$REDIS_USER@$REDIS_HOST:$REDIS_PORT/1
 export NC_PUBLIC_URL=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'limit(1;.[] | select(.primary) | .production_url)')
 export NC_BACKEND_URL=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'limit(1;.[] | select(.primary) | .production_url)')"backend"
