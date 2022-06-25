@@ -21,4 +21,5 @@ export NC_PUBLIC_URL=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'limit(1;
 export NC_BACKEND_URL=$(echo $PLATFORM_ROUTES | base64 --decode | jq -r 'limit(1;.[] | select(.primary) | .production_url)')"backend"
 export NC_INVITE_ONLY_SIGNUP=true
 export NC_TOOL_DIR=$PLATFORM_APP_DIR"/data"
-export NC_MIN=""
+export NC_MIN=false
+
