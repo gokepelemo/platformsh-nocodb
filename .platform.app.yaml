@@ -12,9 +12,15 @@ relationships:
   metadatastore: 'metadatastore:redis'
 
 hooks:
-  build: |
-    set -e
-    npm install -g
+  build: !include
+    type: string
+    path: ops/hooks/build.sh
+  deploy: !include
+    type: string
+    path: ops/hooks/deploy.sh
+  post_deploy: !include
+    type: string
+    path: ops/hooks/post_deploy.sh
 
 web:
   locations:
@@ -28,10 +34,19 @@ web:
           expires: 4w
 
   commands:
-    start: node index.js --max-old-space-size=512 
+    start: !include
+      type: string
+      path: ops/start.sh 
 
 mounts:
   # A writable mount for the data directory 
   '/data':
     source: local
     source_path: 'data'
+
+source:
+  operations:
+    auto-update:
+      command: |
+        curl -fsS https://raw.githubusercontent.com/platformsh/source-operations/main/setup.sh | { bash /dev/fd/3 sop-autoupdate; } 3<&0
+
